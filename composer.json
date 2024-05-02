@@ -1,0 +1,24 @@
+{
+    "name": "mikhail/primitive_wrappers",
+    "description": "The object wrappers and static helpers for php primitive types",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Mikhail\\PrimitiveWrappers\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mikhail\\Tests\\PrimitiveWrappers\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Savin Mikhail",
+            "email": "mikhail.d.savin@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    }
+}

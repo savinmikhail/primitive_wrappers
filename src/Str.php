@@ -16,4 +16,9 @@ class Str
     {
         return strlen($string);
     }
+
+    public static function isMultibyte(string $string): bool
+    {
+        return strlen($string) !== mb_strlen($string, mb_detect_encoding($string));
+    }
 }

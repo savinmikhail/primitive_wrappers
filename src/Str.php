@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mikhail\PrimitiveWrappers;
 
 use function strlen;
+use function mb_strlen;
+use function mb_detect_encoding;
 
 class Str
 {
@@ -19,6 +21,10 @@ class Str
 
     public static function isMultibyte(string $string): bool
     {
-        return strlen($string) !== mb_strlen($string, mb_detect_encoding($string));
+        $encoding = mb_detect_encoding($string);
+        if ($encoding === false) {
+            throw new \Exception('Failed to detect encoding');
+        }
+        return strlen($string) !== mb_strlen($string, $encoding);
     }
 }

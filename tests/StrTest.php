@@ -5,20 +5,42 @@ declare(strict_types=1);
 namespace Mikhail\Tests\PrimitiveWrappers;
 
 use Mikhail\PrimitiveWrappers\Str;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(Str::class)]
+#[CoversMethod(Str::class, 'length')]
 class StrTest extends TestCase
 {
-    public function testLength(): void
+    public static function lengthDataProvider(): array
     {
-        $this->assertEquals(strlen('foo'), Str::length('foo'));
+        return [
+            ['foo', 3],
+            ['привет', 6],
+            ['あいうえお', 5],
+        ];
     }
 
-    public function testIsMultibyte(): void
+    #[DataProvider('lengthDataProvider')]
+    public function testLength(string $str, int $expectedLength): void
     {
-        $str = 'foo';
-        $this->assertEquals(false, Str::isMultibyte($str));
-        $mbStr = 'あいうえお';
-        $this->assertEquals(true, Str::isMultibyte($mbStr));
+        $this->assertEquals($expectedLength, (new Str($str))->length());
+    }
+
+    public static function isMultibyteDataProvider(): array
+    {
+        return [
+            ['foo', false],
+            ['привет', true],
+            ['あいうえお', true],
+        ];
+    }
+
+    #[DataProvider('isMultibyteDataProvider')]
+    public function testIsMultibyte(string $str, bool $expectedIsMultibyte): void
+    {
+        $this->assertEquals($expectedIsMultibyte, (new Str($str))->isMultibyte());
     }
 }

@@ -34,5 +34,20 @@ class Str
         return strlen($this->str) !== mb_strlen($this->str, $encoding);
     }
 
- 
+    public function __toString(): string
+    {
+        return $this->str;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function jsonDecode(bool $associative = true, int $depth = 512, int $options = JSON_THROW_ON_ERROR): array
+    {
+        $decodingResult = json_decode($this->str, $associative, $depth, $options);
+        if ($decodingResult === false) {
+            throw new Exception('Failed to decode JSON');
+        }
+        return $decodingResult;
+    }
 }

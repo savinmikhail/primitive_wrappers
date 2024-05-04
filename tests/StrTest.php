@@ -9,9 +9,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Exception;
 
 #[CoversClass(Str::class)]
 #[CoversMethod(Str::class, 'length')]
+#[CoversMethod(Str::class, 'isMultibyte')]
+#[CoversMethod(Str::class, '__toString')]
 class StrTest extends TestCase
 {
     public static function lengthDataProvider(): array
@@ -42,5 +45,20 @@ class StrTest extends TestCase
     public function testIsMultibyte(string $str, bool $expectedIsMultibyte): void
     {
         $this->assertEquals($expectedIsMultibyte, (new Str($str))->isMultibyte());
+    }
+
+    public function testToString(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->assertSame($string, (string) $str);
+    }
+
+    public function testJsonDecode(): void
+    {
+        $string = 'Hello, world!';
+        $json = json_encode($string);
+        $str = (new Str($json))->jsonDecode();
+        $this->assertSame($string, $str);
     }
 }

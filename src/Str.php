@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace Mikhail\PrimitiveWrappers;
 
+use Countable;
 use Exception;
+use JsonException;
+use JsonSerializable;
+use Mikhail\PrimitiveWrappers\Exceptions\StrException;
+use Stringable;
+use Serializable;
+use stdClass;
 
 use function strlen;
 use function mb_strlen;
 use function mb_detect_encoding;
+use function json_decode;
 
 /** anything in ASCII works as in UTF-8, so we use mb_ functions everywhere */
-class Str
+class Str implements Stringable
 {
     public function __construct(protected string $str)
     {
@@ -23,15 +31,24 @@ class Str
     }
 
     /**
-     * @throws Exception
+     * @throws StrException
      */
     public function isMultibyte(): bool
     {
+        $encoding = $this->detectEncoding();
+        return strlen($this->str) !== mb_strlen($this->str, $encoding);
+    }
+
+    /**
+     * @throws StrException
+     */
+    public function detectEncoding(): string
+    {
         $encoding = mb_detect_encoding($this->str);
         if ($encoding === false) {
-            throw new Exception('Failed to detect encoding');
+            throw new StrException('Could not detect encoding');
         }
-        return strlen($this->str) !== mb_strlen($this->str, $encoding);
+        return $encoding;
     }
 
     public function __toString(): string
@@ -40,13 +57,34 @@ class Str
     }
 
     /**
-     * @throws Exception
+     * The $associative param was removed, due to violation of single responsibility principle
+     * @throws StrException
      */
-    public function jsonDecode(bool $associative = true, int $depth = 512, int $options = JSON_THROW_ON_ERROR): array
+    public function jsonDecodeAssociative(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|array
     {
-        $decodingResult = json_decode($this->str, $associative, $depth, $options);
-        if ($decodingResult === false) {
-            throw new Exception('Failed to decode JSON');
+        try {
+            $decodingResult = json_decode($this->str, true, $depth, $options);
+        } catch (JsonException $e) {
+            throw new StrException('Failed to decode JSON', 0, $e);
+        }
+        if ($decodingResult === null) {
+            throw new StrException('Failed to decode JSON');
+        }
+        return $decodingResult;
+    }
+
+    /**
+     * @throws StrException
+     */
+    public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|stdClass
+    {
+        try {
+            $decodingResult = json_decode($this->str, false, $depth, $options);
+        } catch (JsonException $e) {
+            throw new StrException('Failed to decode JSON', 0, $e);
+        }
+        if ($decodingResult === null) {
+            throw new StrException('Failed to decode JSON');
         }
         return $decodingResult;
     }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Mikhail\Tests\PrimitiveWrappers;
 
+use Mikhail\PrimitiveWrappers\Exceptions\StrException;
 use Mikhail\PrimitiveWrappers\Str;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Exception;
 
 #[CoversClass(Str::class)]
 #[CoversMethod(Str::class, 'length')]
@@ -47,6 +47,31 @@ class StrTest extends TestCase
         $this->assertEquals($expectedIsMultibyte, (new Str($str))->isMultibyte());
     }
 
+    public function testIsMultibyteThrowsExceptionWhenEncodingDetectionFails(): void
+    {
+        // Create a mock object for Str class
+        $strMock = $this->getMockBuilder(Str::class)
+            ->onlyMethods(['detectEncoding'])
+            ->setConstructorArgs([''])
+            ->getMock();
+
+        // Set up the mock behavior for detectEncoding method
+        $strMock->expects($this->once())
+            ->method('detectEncoding')
+            ->willThrowException(new StrException('Could not detect encoding'));
+
+        // Assert that a StrException is thrown when isMultibyte is called
+        $this->expectException(StrException::class);
+        $strMock->isMultibyte();
+    }
+
+    public function testDetectEncodingThrowsException(): void
+    {
+        $str = new Str(random_bytes(10));
+        $this->expectException(StrException::class);
+        $str->detectEncoding();
+    }
+
     public function testToString(): void
     {
         $string = 'Hello, world!';
@@ -54,11 +79,47 @@ class StrTest extends TestCase
         $this->assertSame($string, (string) $str);
     }
 
-    public function testJsonDecode(): void
+    public function testJsonDecodeAssociative(): void
     {
         $string = 'Hello, world!';
         $json = json_encode($string);
-        $str = (new Str($json))->jsonDecode();
+        $str = (new Str($json))->jsonDecodeAssociative();
         $this->assertSame($string, $str);
+    }
+
+    public function testJsonDecodeObject(): void
+    {
+        $string = 'Hello, world!';
+        $json = json_encode($string);
+        $str = (new Str($json))->jsonDecodeObject();
+        $this->assertSame($string, $str);
+    }
+
+    public function testJsonDecodeErrorAssociative(): void
+    {
+        $json = "{'some_invalid_json";
+        $this->expectException(StrException::class);
+        (new Str($json))->jsonDecodeAssociative();
+    }
+
+    public function testJsonDecodeErrorObject(): void
+    {
+        $json = "{'some_invalid_json";
+        $this->expectException(StrException::class);
+        (new Str($json))->jsonDecodeObject();
+    }
+
+    public function testJsonDecodeErrorAssociativeWithoutThrowOnErrorFlag(): void
+    {
+        $json = "{'some_invalid_json";
+        $this->expectException(StrException::class);
+        (new Str($json))->jsonDecodeAssociative(options: 0);
+    }
+
+    public function testJsonDecodeErrorObjectWithoutThrowOnErrorFlag(): void
+    {
+        $json = "{'some_invalid_json";
+        $this->expectException(StrException::class);
+        (new Str($json))->jsonDecodeObject(options: 0);
     }
 }

@@ -25,7 +25,7 @@ grumphp:
             exclude:
                 - /^vendor\/
             report_format: text
-            ruleset: ["cleancode", "codesize", "naming", "unusedcode"]
+            ruleset: ["cleancode", "codesize", "naming", "unusedcode", 'design', 'controversial']
             triggered_by: ["php"]
 
         phpunit:
@@ -36,26 +36,9 @@ grumphp:
             always_execute: false
             order: null
 
-        psalm:
-            config: psalm.xml
-            ignore_patterns: [ ]
-            no_cache: false
-            report: ~
-            output_format: null
-            threads: 1
-            triggered_by: [ 'php' ]
-            show_info: false
+        phan:
+         config_file: .phan/config.php
+         output_mode: text
+         output: null
+         triggered_by: [php]
 
-        # phan:
-        #     config_file: .phan/config.php
-        #     output_mode: text
-        #     output: null
-        #     triggered_by: [php]
-
-        # phplint:
-        #     exclude:
-        #         - /^vendor\/
-        #     jobs: ~
-        #     short_open_tag: true
-        #     ignore_patterns: []
-        #     triggered_by: ['php']

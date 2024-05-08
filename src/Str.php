@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace Mikhail\PrimitiveWrappers;
 
-use Countable;
-use Exception;
 use JsonException;
-use JsonSerializable;
 use Mikhail\PrimitiveWrappers\Exceptions\StrException;
 use Stringable;
-use Serializable;
 use stdClass;
+use ValueError;
 
 use function strlen;
 use function mb_strlen;
 use function mb_detect_encoding;
 use function json_decode;
+use function mb_strtolower;
+use function mb_strtoupper;
+use function trim;
+use function ucfirst;
+use function str_split;
+use function str_replace;
+use function str_repeat;
 
-/** anything in ASCII works as in UTF-8, so we use mb_ functions everywhere */
+/**
+ * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class Str implements Stringable
 {
     public function __construct(protected string $str)
@@ -87,5 +94,61 @@ class Str implements Stringable
             throw new StrException('Failed to decode JSON');
         }
         return $decodingResult;
+    }
+
+    public function toLower(): self
+    {
+        $this->str = mb_strtolower($this->str);
+        return $this;
+    }
+
+    public function toUpper(): self
+    {
+        $this->str = mb_strtoupper($this->str);
+        return $this;
+    }
+
+    public function toString(): string
+    {
+        return $this->str;
+    }
+
+    public function trim(string $characters = " \n\r\t\v\0"): self
+    {
+        $this->str = trim($this->str, $characters);
+        return $this;
+    }
+
+    /**
+     * @throws StrException
+     */
+    public function split(int $length = 1): array
+    {
+        try {
+            return str_split($this->str, $length);
+        } catch (ValueError $e) {
+            throw new StrException('Failed to split', 0, $e);
+        }
+    }
+
+    public function capitalize(): self
+    {
+        $this->str = ucfirst($this->str);
+        return $this;
+    }
+
+    /**
+     * todo: are we need array values here?
+     */
+    public function replace(string $search, string $replace, int &$count): self
+    {
+        $this->str = str_replace($search, $replace, $this->str, $count);
+        return $this;
+    }
+
+    public function repeat(int $times): self
+    {
+        $this->str = str_repeat($this->str, $times);
+        return $this;
     }
 }

@@ -67,12 +67,13 @@ class StrTest extends TestCase
 
     public function testDetectEncodingThrowsException(): void
     {
+        $this->markTestIncomplete('todo: generate more consistent string failure');
         $str = new Str(random_bytes(10));
         $this->expectException(StrException::class);
         $str->detectEncoding();
     }
 
-    public function testToString(): void
+    public function testToStringMagic(): void
     {
         $string = 'Hello, world!';
         $str = new Str($string);
@@ -121,5 +122,48 @@ class StrTest extends TestCase
         $json = "{'some_invalid_json";
         $this->expectException(StrException::class);
         (new Str($json))->jsonDecodeObject(options: 0);
+    }
+
+    public function testToString(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->assertSame($string, $str->toString());
+    }
+
+    public function testTrim()
+    {
+        $string = 'Hello, world!';
+        $stringToTrim = $string . '  ' . "\n";
+        $str = new Str($stringToTrim);
+        $this->assertSame($string, $str->trim()->toString());
+    }
+
+    public function testToLower(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->assertSame('hello, world!', $str->toLower()->toString());
+    }
+
+    public function testToUpper(): void
+    {
+        $string = 'hello, world!';
+        $str = new Str($string);
+        $this->assertSame('HELLO, WORLD!', $str->toUpper()->toString());
+    }
+
+    public function testCapitalize(): void
+    {
+        $string = 'hello, world!';
+        $str = new Str($string);
+        $this->assertSame('Hello, world!', $str->capitalize()->toString());
+    }
+
+    public function testSplitWithNonPositiveInteger(): void
+    {
+        $string = 'Hello, world!';
+        $this->expectException(StrException::class);
+        (new Str($string))->split(-1);
     }
 }

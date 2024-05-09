@@ -195,4 +195,19 @@ class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame('H', $str->sub(0, 1)->toString());
     }
+
+    public static function isEmptyDataProvider(): array
+    {
+        return [
+            ['foo', false],
+            ['', true],
+        ];
+    }
+
+    #[DataProvider('isEmptyDataProvider')]
+    public function testIsEmpty(string $string, bool $expectedResult): void
+    {
+        $str = new Str($string);
+        $this->assertEquals($expectedResult, $str->isEmpty());
+    }
 }

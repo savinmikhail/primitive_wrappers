@@ -169,4 +169,9 @@ class Str implements Stringable
         $this->str = mb_substr($this->str, $start, $length, $encoding);
         return $this;
     }
+
+    public function isEmpty(): bool
+    {
+        return $this->str === "";
+    }
 }

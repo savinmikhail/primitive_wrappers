@@ -1,3 +1,5 @@
+![EO principles respected here](https://www.elegantobjects.org/badge.svg)
+
 # Object-Oriented Primitive Wrappers
 
 This PHP library provides object-oriented wrappers for primitive data types, aiming to improve code readability, 
@@ -17,12 +19,13 @@ work with primitives in a more intuitive and structured manner.
 
 - **Enhanced Error Handling**: By encapsulating logic within object-oriented wrappers, the library provides more robust 
 error handling mechanisms, reducing the likelihood of runtime errors and promoting consistent error reporting, so you 
-don't have to remember to check whether some `json_decode` returned false, or null, or empty string.
+don't have to remember to check whether some `json_decode` returned false, or null, or empty string,
+or threw Error or Exception.
 
 
 - **Improved Readability**: Clear and descriptive method names, along with encapsulated behavior, enhance code 
 readability and maintainability, leading to more understandable and maintainable codebases, so you don't have to worry 
-whether function calls `str_split` or `strSplit` or just `split`
+whether function calls `str_split` or `strSplit` or `split`. Either to remember what some `strpbrk` mean
 
 ### Example Usage
 
@@ -36,17 +39,9 @@ $str = new Str('Hello, world!');
 $length = $str->length();
 echo "Length: $length\n";
 
-// Check if the string is multibyte
-$isMultibyte = $str->isMultibyte();
-echo "Is multibyte: " . ($isMultibyte ? 'true' : 'false') . "\n";
-
-// Convert the string to lowercase
-$lowercase = $str->toLowerCase();
-echo "Lowercase: $lowercase\n";
-
-// Convert the string to uppercase
-$uppercase = $str->toUpperCase();
-echo "Uppercase: $uppercase\n";
+// Use method as builder
+$lowercase = $str->toLowerCase()->capitalize();
+echo "Lowercase capitalized: $lowercase\n";
 ```
 
 ## Contributing

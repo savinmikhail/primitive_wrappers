@@ -1,4 +1,5 @@
 ![EO principles respected here](https://www.elegantobjects.org/badge.svg)
+[![Code Coverage](https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/?branch=main)
 
 # Object-Oriented Primitive Wrappers
 

@@ -174,7 +174,15 @@ class StrTest extends TestCase
         $this->assertSame('Hello, worlb!', $str->replace('d', 'b')->toString());
     }
 
-    public function testRepeat(): void
+    public function testRepeatWithNonPositiveTimes(): void
+    {
+        $string = 'H';
+        $str = new Str($string);
+        $this->expectException(StrException::class);
+        $str->repeat(-2);
+    }
+
+    public function testRepeatWithPositiveTimes(): void
     {
         $string = 'H';
         $str = new Str($string);

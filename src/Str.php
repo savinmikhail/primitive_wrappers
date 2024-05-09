@@ -147,9 +147,16 @@ class Str implements Stringable
         return $this;
     }
 
+    /**
+     * @throws StrException
+     */
     public function repeat(int $times): self
     {
-        $this->str = str_repeat($this->str, $times);
+        try {
+            $this->str = str_repeat($this->str, $times);
+        } catch (ValueError $e) {
+            throw new StrException('Failed to repeat', 0, $e);
+        }
         return $this;
     }
 

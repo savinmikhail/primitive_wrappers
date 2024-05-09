@@ -25,6 +25,7 @@ use function str_repeat;
 /**
  * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @phan-file-suppress PhanRedefinedInheritedInterface
  */
 class Str implements Stringable
 {
@@ -140,7 +141,7 @@ class Str implements Stringable
     /**
      * todo: are we need array values here?
      */
-    public function replace(string $search, string $replace, int &$count): self
+    public function replace(string $search, string $replace, int &$count = 0): self
     {
         $this->str = str_replace($search, $replace, $this->str, $count);
         return $this;

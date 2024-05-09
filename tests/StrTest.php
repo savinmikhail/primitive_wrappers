@@ -166,4 +166,18 @@ class StrTest extends TestCase
         $this->expectException(StrException::class);
         (new Str($string))->split(-1);
     }
+
+    public function testReplace(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->assertSame('Hello, worlb!', $str->replace('d', 'b')->toString());
+    }
+
+    public function testRepeat(): void
+    {
+        $string = 'H';
+        $str = new Str($string);
+        $this->assertSame('HH', $str->repeat(2)->toString());
+    }
 }

@@ -152,4 +152,14 @@ class Str implements Stringable
         $this->str = str_repeat($this->str, $times);
         return $this;
     }
+
+    /**
+     * if you don't provide length, you'll get the whole string, so you don't need this function.
+     * so the length argument is required
+     */
+    public function sub(int $start, int $length, string $encoding = "UTF-8"): self
+    {
+        $this->str = mb_substr($this->str, $start, $length, $encoding);
+        return $this;
+    }
 }

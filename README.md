@@ -45,6 +45,11 @@ $lowercase = $str->toLowerCase()->capitalize();
 echo "Lowercase capitalized: $lowercase\n";
 ```
 
+## Similar projects
+[Symfony string](https://github.com/symfony/symfony/blob/7.0/src/Symfony/Component/String/UnicodeString.php)
+[Illuminate Str](https://github.com/laravel/framework/blob/9.x/src/Illuminate/Support/Str.php)
+[Primitive objects](https://github.com/dobryakov/php-primitive-objects)
+
 ## Contributing
 
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to open 

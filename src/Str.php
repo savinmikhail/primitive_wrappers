@@ -153,12 +153,13 @@ class Str implements Stringable
      */
     public function repeat(int $times): self
     {
+        $str = clone $this;
         try {
-            $this->str = str_repeat($this->str, $times);
+            $str->str = str_repeat($this->str, $times);
         } catch (ValueError $e) {
             throw new StrException('Failed to repeat', 0, $e);
         }
-        return $this;
+        return $str;
     }
 
     /**
@@ -187,5 +188,19 @@ class Str implements Stringable
             throw new StrException('Failed to find position');
         }
         return $position;
+    }
+
+    public function append(string $suffix): self
+    {
+        $str = clone $this;
+        $str->str .= $suffix;
+        return $str;
+    }
+
+    public function prepend(string $suffix): self
+    {
+        $str = clone $this;
+        $str->str = $suffix . $str->str;
+        return $str;
     }
 }

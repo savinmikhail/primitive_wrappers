@@ -225,4 +225,18 @@ class StrTest extends TestCase
         $this->expectException(StrException::class);
         $str->getPosition('h');
     }
+
+    public function testAppend(): void
+    {
+        $string = 'Hello';
+        $str = new Str($string);
+        $this->assertSame('Hello, world!', $str->append(', world!')->toString());
+    }
+
+    public function testPrepend(): void
+    {
+        $string = ', world!';
+        $str = new Str($string);
+        $this->assertSame('Hello, world!', $str->prepend('Hello')->toString());
+    }
 }

@@ -51,7 +51,7 @@ $lowercase = $str->toLowerCase()->capitalize();
 echo "Lowercase capitalized: $lowercase\n";
 
 //use some complicated methods:
-$snake = (new Str('Lorem ipsum dolor sit amet))->snake(); //lorem_ipsum_dolor_sit_amet
+$snake = (new Str('Lorem ipsum dolor sit amet'))->snake(); //lorem_ipsum_dolor_sit_amet
 ```
 
 ## Similar projects

@@ -28,6 +28,12 @@ or threw Error or Exception.
 readability and maintainability, leading to more understandable and maintainable codebases, so you don't have to worry 
 whether function calls `str_split` or `strSplit` or `split`. Either to remember what some `strpbrk` mean
 
+## Installation
+
+Run
+
+`composer require savinmikhail/primitive_wrappers`
+
 ### Example Usage
 
 ```php
@@ -47,13 +53,19 @@ echo "Lowercase capitalized: $lowercase\n";
 
 ## Similar projects
 [Symfony string](https://github.com/symfony/symfony/blob/7.0/src/Symfony/Component/String/UnicodeString.php)
+
 [Illuminate Str](https://github.com/laravel/framework/blob/9.x/src/Illuminate/Support/Str.php)
+
 [Primitive objects](https://github.com/dobryakov/php-primitive-objects)
 
 ## Contributing
 
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to open 
 an issue or submit a pull request on GitHub.
+
+## License
+
+This library is released under the [MIT license](LICENSE).
 
 ---
 

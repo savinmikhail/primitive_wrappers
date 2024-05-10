@@ -1,5 +1,5 @@
 {
-    "name": "savin/primitive_wrappers",
+    "name": "savinmikhail/primitive_wrappers",
     "description": "The object wrappers and static helpers for php primitive types",
     "type": "library",
     "autoload": {

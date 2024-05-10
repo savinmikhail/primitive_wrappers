@@ -121,6 +121,7 @@ class Str implements Stringable
     }
 
     /**
+     * @param int<0,max> $length
      * @throws StrException
      */
     public function split(int $length = 1): array
@@ -173,5 +174,18 @@ class Str implements Stringable
     public function isEmpty(): bool
     {
         return $this->str === "";
+    }
+
+    /**
+     * @param int<0,max> $offset [optional]
+     * @throws StrException
+     */
+    public function getPosition(string $needle, int $offset = 0, string $encoding = 'UTF-8'): int
+    {
+        $position = mb_strpos($this->str, $needle, $offset, $encoding);
+        if ($position === false) {
+            throw new StrException('Failed to find position');
+        }
+        return $position;
     }
 }

@@ -210,4 +210,19 @@ class StrTest extends TestCase
         $str = new Str($string);
         $this->assertEquals($expectedResult, $str->isEmpty());
     }
+
+    public function testGetPosition(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->assertSame(0, $str->getPosition('H'));
+    }
+
+    public function testGetPositionOfNonExistingChar(): void
+    {
+        $string = 'Hello, world!';
+        $str = new Str($string);
+        $this->expectException(StrException::class);
+        $str->getPosition('h');
+    }
 }

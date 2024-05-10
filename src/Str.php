@@ -33,12 +33,32 @@ readonly class Str implements Stringable
     {
     }
 
+    /**
+     * convert class to string
+     */
+    public function __toString(): string
+    {
+        return $this->str;
+    }
+
+    /**
+     * convert class to string explicitly
+     */
+    public function toString(): string
+    {
+        return $this->str;
+    }
+
+    /**
+     * get the length of the string
+     */
     public function length(): int
     {
         return mb_strlen($this->str);
     }
 
     /**
+     * check, whether the string is Ascii or UTF-8
      * @throws StrException
      */
     public function isMultibyte(): bool
@@ -48,6 +68,7 @@ readonly class Str implements Stringable
     }
 
     /**
+     * Get string's encoding
      * @throws StrException
      */
     public function detectEncoding(): string
@@ -59,12 +80,8 @@ readonly class Str implements Stringable
         return $encoding;
     }
 
-    public function __toString(): string
-    {
-        return $this->str;
-    }
-
     /**
+     * Get associative array from json string
      * The $associative param was removed, due to violation of single responsibility principle
      * @throws StrException
      */
@@ -82,6 +99,7 @@ readonly class Str implements Stringable
     }
 
     /**
+     * Get object from json string
      * @throws StrException
      */
     public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|stdClass
@@ -97,19 +115,20 @@ readonly class Str implements Stringable
         return $decodingResult;
     }
 
+    /**
+     * Convert all upper letters to lower
+     */
     public function toLower(): static
     {
         return new static(mb_strtolower($this->str));
     }
 
+    /**
+     * convert all lower case letters to upper
+     */
     public function toUpper(): static
     {
         return new static(mb_strtoupper($this->str));
-    }
-
-    public function toString(): string
-    {
-        return $this->str;
     }
 
     public function trim(string $characters = " \n\r\t\v\0"): static
@@ -119,6 +138,7 @@ readonly class Str implements Stringable
     }
 
     /**
+     * get array of chunk by their length from string
      * @param int<0,max> $length
      * @throws StrException
      */
@@ -131,12 +151,16 @@ readonly class Str implements Stringable
         }
     }
 
+    /**
+     * make first letter upper case
+     */
     public function capitalize(): static
     {
         return new static(ucfirst($this->str));
     }
 
     /**
+     * replace substring with another substring
      * todo: are we need array values here?
      */
     public function replace(string $search, string $replace, int &$count = 0): static
@@ -145,6 +169,7 @@ readonly class Str implements Stringable
     }
 
     /**
+     * get string concatenated with itself multiple times
      * @throws StrException
      */
     public function repeat(int $times): static
@@ -157,6 +182,7 @@ readonly class Str implements Stringable
     }
 
     /**
+     * get substring
      * if you don't provide length, you'll get the whole string, so you don't need this function.
      * so the length argument is required
      */
@@ -165,12 +191,16 @@ readonly class Str implements Stringable
         return new static(mb_substr($this->str, $start, $length, $encoding));
     }
 
+    /**
+     * check, whether string contains some chars or not
+     */
     public function isEmpty(): bool
     {
         return $this->str === "";
     }
 
     /**
+     * Find position of first occurrence of string in a string
      * @param int<0,max> $offset [optional]
      * @throws StrException
      */
@@ -183,11 +213,17 @@ readonly class Str implements Stringable
         return $position;
     }
 
+    /**
+     * add substring to the end of the string
+     */
     public function append(string $suffix): static
     {
         return new static($this->str . $suffix);
     }
 
+    /**
+     * add substring to the start of the string
+     */
     public function prepend(string $suffix): static
     {
         return new static($suffix . $this->str);

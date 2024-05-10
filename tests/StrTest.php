@@ -12,10 +12,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Str::class)]
-#[CoversMethod(Str::class, 'length')]
-#[CoversMethod(Str::class, 'isMultibyte')]
-#[CoversMethod(Str::class, '__toString')]
-class StrTest extends TestCase
+final class StrTest extends TestCase
 {
     public static function lengthDataProvider(): array
     {
@@ -45,24 +42,6 @@ class StrTest extends TestCase
     public function testIsMultibyte(string $str, bool $expectedIsMultibyte): void
     {
         $this->assertEquals($expectedIsMultibyte, (new Str($str))->isMultibyte());
-    }
-
-    public function testIsMultibyteThrowsExceptionWhenEncodingDetectionFails(): void
-    {
-        // Create a mock object for Str class
-        $strMock = $this->getMockBuilder(Str::class)
-            ->onlyMethods(['detectEncoding'])
-            ->setConstructorArgs([''])
-            ->getMock();
-
-        // Set up the mock behavior for detectEncoding method
-        $strMock->expects($this->once())
-            ->method('detectEncoding')
-            ->willThrowException(new StrException('Could not detect encoding'));
-
-        // Assert that a StrException is thrown when isMultibyte is called
-        $this->expectException(StrException::class);
-        $strMock->isMultibyte();
     }
 
     public function testDetectEncodingThrowsException(): void

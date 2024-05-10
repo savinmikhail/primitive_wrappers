@@ -27,7 +27,7 @@ use function str_repeat;
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @phan-file-suppress PhanRedefinedInheritedInterface
  */
-class Str implements Stringable
+readonly class Str implements Stringable
 {
     public function __construct(protected string $str)
     {
@@ -97,16 +97,14 @@ class Str implements Stringable
         return $decodingResult;
     }
 
-    public function toLower(): self
+    public function toLower(): static
     {
-        $this->str = mb_strtolower($this->str);
-        return $this;
+        return new static(mb_strtolower($this->str));
     }
 
-    public function toUpper(): self
+    public function toUpper(): static
     {
-        $this->str = mb_strtoupper($this->str);
-        return $this;
+        return new static(mb_strtoupper($this->str));
     }
 
     public function toString(): string
@@ -114,10 +112,10 @@ class Str implements Stringable
         return $this->str;
     }
 
-    public function trim(string $characters = " \n\r\t\v\0"): self
+    public function trim(string $characters = " \n\r\t\v\0"): static
     {
-        $this->str = trim($this->str, $characters);
-        return $this;
+        $str = trim($this->str, $characters);
+        return new static($str);
     }
 
     /**
@@ -133,43 +131,38 @@ class Str implements Stringable
         }
     }
 
-    public function capitalize(): self
+    public function capitalize(): static
     {
-        $this->str = ucfirst($this->str);
-        return $this;
+        return new static(ucfirst($this->str));
     }
 
     /**
      * todo: are we need array values here?
      */
-    public function replace(string $search, string $replace, int &$count = 0): self
+    public function replace(string $search, string $replace, int &$count = 0): static
     {
-        $this->str = str_replace($search, $replace, $this->str, $count);
-        return $this;
+        return new static(str_replace($search, $replace, $this->str, $count));
     }
 
     /**
      * @throws StrException
      */
-    public function repeat(int $times): self
+    public function repeat(int $times): static
     {
-        $str = clone $this;
         try {
-            $str->str = str_repeat($this->str, $times);
+            return new static(str_repeat($this->str, $times));
         } catch (ValueError $e) {
             throw new StrException('Failed to repeat', 0, $e);
         }
-        return $str;
     }
 
     /**
      * if you don't provide length, you'll get the whole string, so you don't need this function.
      * so the length argument is required
      */
-    public function sub(int $start, int $length, string $encoding = "UTF-8"): self
+    public function sub(int $start, int $length, string $encoding = "UTF-8"): static
     {
-        $this->str = mb_substr($this->str, $start, $length, $encoding);
-        return $this;
+        return new static(mb_substr($this->str, $start, $length, $encoding));
     }
 
     public function isEmpty(): bool
@@ -190,17 +183,13 @@ class Str implements Stringable
         return $position;
     }
 
-    public function append(string $suffix): self
+    public function append(string $suffix): static
     {
-        $str = clone $this;
-        $str->str .= $suffix;
-        return $str;
+        return new static($this->str . $suffix);
     }
 
-    public function prepend(string $suffix): self
+    public function prepend(string $suffix): static
     {
-        $str = clone $this;
-        $str->str = $suffix . $str->str;
-        return $str;
+        return new static($suffix . $this->str);
     }
 }

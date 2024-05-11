@@ -377,4 +377,19 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame($reversed, $str->reverse()->toString());
     }
+
+    public static function wordsDataProvider(): array
+    {
+        return [
+            ['hello World', ['hello', 'World']],
+            ['Lorem ipsum dolor sit amet', ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']],
+        ];
+    }
+
+    #[DataProvider('wordsDataProvider')]
+    public function testWords(string $string, array $words): void
+    {
+        $str = new Str($string);
+        $this->assertSame($words, $str->words());
+    }
 }

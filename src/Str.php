@@ -376,4 +376,19 @@ readonly class Str implements Stringable, JsonSerializable
             )
         );
     }
+
+    /**
+     * get the words from the string
+     */
+    public function words(): array
+    {
+        // Define the regular expression pattern to match words
+        $pattern = '/\b\w+\b/';
+
+        // Match all words in the string using the regular expression pattern
+        preg_match_all($pattern, $this->str, $matches);
+
+        // Return the array of matched words
+        return $matches[0];
+    }
 }

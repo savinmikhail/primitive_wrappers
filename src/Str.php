@@ -245,4 +245,12 @@ readonly class Str implements Stringable, JsonSerializable
     {
         return str_starts_with($this->str, $needle);
     }
+
+    /**
+     * check, whether string ends with provided substring or not
+     */
+    public function endsWith(string $needle): bool
+    {
+        return str_ends_with($this->str, $needle);
+    }
 }

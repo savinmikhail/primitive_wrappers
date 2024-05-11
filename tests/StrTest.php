@@ -244,4 +244,22 @@ final class StrTest extends TestCase
         $this->assertEquals($expected, $str->startsWith($needle));
     }
 
+    public static function endsWithDataProvider(): array
+    {
+        return [
+            ['Hello, world!', 'Hello, world!', true],
+            ['Hello, world!', 'world!', true],
+            ['Hello, world!', 'world', false],
+            ['Hello, world!', '', true],
+            ['Hello, world!', 'some string', false],
+        ];
+    }
+
+    #[DataProvider('endsWithDataProvider')]
+    public function testEndsWith(string $string, string $needle, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->endsWith($needle));
+    }
+
 }

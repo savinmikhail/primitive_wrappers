@@ -226,4 +226,22 @@ final class StrTest extends TestCase
         $this->assertEquals('"Hello, world!"', $json);
     }
 
+    public static function startsWithDataProvider(): array
+    {
+        return [
+            ['Hello, world!', 'Hello, world!', true],
+            ['Hello, world!', 'world!', false],
+            ['Hello, world!', 'Hello', true],
+            ['Hello, world!', '', true],
+            ['Hello, world!', 'some string', false],
+        ];
+    }
+
+    #[DataProvider('startsWithDataProvider')]
+    public function testStartsWith(string $string, string $needle, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertEquals($expected, $str->startsWith($needle));
+    }
+
 }

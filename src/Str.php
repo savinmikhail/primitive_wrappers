@@ -237,4 +237,12 @@ readonly class Str implements Stringable, JsonSerializable
     {
         return $this->str;
     }
+
+    /**
+     * check, whether string starts with provided substring or not
+     */
+    public function startsWith(string $needle): bool
+    {
+        return str_starts_with($this->str, $needle);
+    }
 }

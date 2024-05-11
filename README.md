@@ -1,9 +1,9 @@
-<div style="text-align: center;">
+<p align="center">
     <img src="https://www.elegantobjects.org/badge.svg" alt="EO principles respected here">
     <a href="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/?branch=main">
         <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/coverage.png?b=main" alt="Code Coverage">
     </a>
-</div>
+</p>
 
 # Object-Oriented Primitive Wrappers
 

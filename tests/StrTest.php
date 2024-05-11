@@ -311,4 +311,21 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame($expected, $str->snake()->toString());
     }
+
+    public static function isSnakeDataProvider(): array
+    {
+        return [
+            ['helloWorld', false],
+            ['hello world', false],
+            ['hello_world', true],
+            ['hello-world', false],
+        ];
+    }
+
+    #[DataProvider('isSnakeDataProvider')]
+    public function testIsSnake(string $string, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->isSnake());
+    }
 }

@@ -283,7 +283,7 @@ readonly class Str implements Stringable, JsonSerializable
             return !empty($matches[1]) ?
                 // Concatenate the lowercase letter from the first capturing group with an underscore and the uppercase
                 // letter from the second capturing group
-                 $matches[1] . '_' . $matches[2] :
+                $matches[1] . '_' . $matches[2] :
 
                 // Replace spaces, hyphens with underscores
                 '_';
@@ -300,5 +300,10 @@ readonly class Str implements Stringable, JsonSerializable
         $snake = strtolower($snake);
 
         return new static($snake);
+    }
+
+    public function isSnake(): bool
+    {
+        return preg_match('/^[a-z0-9]+(?:_[a-z0-9]+)*$/', $this->str) === 1;
     }
 }

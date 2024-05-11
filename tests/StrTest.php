@@ -345,4 +345,22 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame($expected, $str->camel()->toString());
     }
+
+    public static function kebabDataProvider(): array
+    {
+        return [
+            ['helloWorld', 'hello-world'],
+            ['Lorem ipsum dolor sit amet', 'lorem-ipsum-dolor-sit-amet'],
+            ['hello_world', 'hello-world'],
+            ['hello-world', 'hello-world'],
+        ];
+    }
+
+    #[DataProvider('kebabDataProvider')]
+    public function testKebab(string $string, string $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->kebab()->toString());
+    }
+
 }

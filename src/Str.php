@@ -332,4 +332,33 @@ readonly class Str implements Stringable, JsonSerializable
 
         return new static($camel);
     }
+
+    /**
+     * convert string to kebab case
+     */
+    public function kebab(): static
+    {
+        $callback = static function (array $matches): string {
+            // If the first capturing group matches a lowercase letter followed by an uppercase letter
+            return !empty($matches[1]) ?
+                // Concatenate the lowercase letter from the first capturing group with an underscore and the uppercase
+                // letter from the second capturing group
+                $matches[1] . '-' . $matches[2] :
+
+                // Replace spaces, hyphens with underscores
+                '-';
+        };
+
+        // Replace camel case boundaries, spaces, hyphens, and underscores with underscores
+        $snake = preg_replace_callback(
+            '/([a-z0-9])([A-Z])|[\s_]+/',
+            $callback,
+            $this->str
+        );
+
+        // Convert the resulting string to lowercase
+        $snake = strtolower($snake);
+
+        return new static($snake);
+    }
 }

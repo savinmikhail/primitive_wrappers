@@ -218,4 +218,12 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame('Hello, world!', $str->prepend('Hello')->toString());
     }
+
+    public function testJsonSerialize()
+    {
+        $str = new Str('Hello, world!');
+        $json = json_encode($str);
+        $this->assertEquals('"Hello, world!"', $json);
+    }
+
 }

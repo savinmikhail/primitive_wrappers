@@ -9,6 +9,7 @@ use Mikhail\PrimitiveWrappers\Exceptions\StrException;
 use Stringable;
 use stdClass;
 use ValueError;
+use JsonSerializable;
 
 use function strlen;
 use function mb_strlen;
@@ -27,7 +28,7 @@ use function str_repeat;
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @phan-file-suppress PhanRedefinedInheritedInterface
  */
-readonly class Str implements Stringable
+readonly class Str implements Stringable, JsonSerializable
 {
     public function __construct(protected string $str)
     {
@@ -227,5 +228,13 @@ readonly class Str implements Stringable
     public function prepend(string $suffix): static
     {
         return new static($suffix . $this->str);
+    }
+
+    /**
+     * Convert the object to a string when JSON encoded.
+     */
+    public function jsonSerialize(): string
+    {
+        return $this->str;
     }
 }

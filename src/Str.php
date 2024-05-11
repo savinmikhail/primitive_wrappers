@@ -253,4 +253,15 @@ readonly class Str implements Stringable, JsonSerializable
     {
         return str_ends_with($this->str, $needle);
     }
+
+    /**
+     * check, if the string contains at least one occurrence of substring
+     */
+    public function contains(string $needle, bool $ignoreCase): bool
+    {
+        if ($ignoreCase) {
+            return str_contains(mb_strtolower($this->str), mb_strtolower($needle));
+        }
+        return str_contains($this->str, $needle);
+    }
 }

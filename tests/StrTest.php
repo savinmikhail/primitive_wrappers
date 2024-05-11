@@ -262,4 +262,22 @@ final class StrTest extends TestCase
         $this->assertSame($expected, $str->endsWith($needle));
     }
 
+    public static function containsDataProvider(): array
+    {
+        return [
+            ['Hello, world!', 'Hello, world!', false, true],
+            ['Hello, world!', 'world', false, true],
+            ['Hello, world!', 'WORLD', true, true],
+            ['Hello, world!', 'WORLD', false, false],
+            ['Hello, world!', '', false, true],
+        ];
+    }
+
+    #[DataProvider('containsDataProvider')]
+    public function testContains(string $string, string $needle, bool $ignoreCase, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->contains($needle, $ignoreCase));
+    }
+
 }

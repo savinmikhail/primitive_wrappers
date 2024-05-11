@@ -328,4 +328,21 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->assertSame($expected, $str->isSnake());
     }
+
+    public static function camelDataProvider(): array
+    {
+        return [
+            ['helloWorld', 'helloWorld'],
+            ['Lorem ipsum dolor sit amet', 'loremIpsumDolorSitAmet'],
+            ['hello_world', 'helloWorld'],
+            ['hello-world', 'helloWorld'],
+        ];
+    }
+
+    #[DataProvider('camelDataProvider')]
+    public function camelSnake(string $string, string $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->camel()->toString());
+    }
 }

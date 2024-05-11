@@ -315,21 +315,19 @@ readonly class Str implements Stringable, JsonSerializable
     {
         // Define the callback function
         $callback = static function (array $matches): string {
-            // If the first capturing group matches a lowercase letter followed by an uppercase letter
-            return !empty($matches[1]) ?
-                // Concatenate the uppercase letter from the second capturing group
-                strtoupper($matches[2]) :
-
-                // Replace spaces and hyphens with underscores
-                '';
+            // Convert the matched character to uppercase
+            return strtoupper($matches[1]);
         };
 
-        // Replace camel case boundaries, spaces, and hyphens with underscores
+        // Replace camel case boundaries, spaces, hyphens, and underscores with uppercase letters
         $camel = preg_replace_callback(
-            '/(?:[_ -]|^)([a-z0-9])/i', // Match camel case boundaries, spaces, and hyphens
+            '/(?:[_ -]|^)([a-z0-9])/i', // Match camel case boundaries, spaces, hyphens, and underscores
             $callback,
             $this->str
         );
+
+        // Convert the first character to lowercase
+        $camel = lcfirst($camel);
 
         return new static($camel);
     }

@@ -340,7 +340,7 @@ final class StrTest extends TestCase
     }
 
     #[DataProvider('camelDataProvider')]
-    public function camelSnake(string $string, string $expected): void
+    public function testCamel(string $string, string $expected): void
     {
         $str = new Str($string);
         $this->assertSame($expected, $str->camel()->toString());

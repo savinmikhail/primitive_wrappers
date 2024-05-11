@@ -280,4 +280,18 @@ final class StrTest extends TestCase
         $this->assertSame($expected, $str->contains($needle, $ignoreCase));
     }
 
+    public static function truncateDataProvider(): array
+    {
+        return [
+            ['Hello, world!', 5, '...', 'Hello...'],
+            ['Hello, world!', strlen("Hello, world!"), '...', 'Hello, world!...'],
+        ];
+    }
+
+    #[DataProvider('truncateDataProvider')]
+    public function testTruncate(string $string, int $length, string $ending, string $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->truncate($length, $ending)->toString());
+    }
 }

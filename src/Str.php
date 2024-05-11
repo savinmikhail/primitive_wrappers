@@ -264,4 +264,12 @@ readonly class Str implements Stringable, JsonSerializable
         }
         return str_contains($this->str, $needle);
     }
+
+    /**
+     * cut the string to provided length and append ending
+     */
+    public function truncate(int $length = 100, string $ending = "..."): static
+    {
+        return $this->sub(0, $length)->append($ending);
+    }
 }

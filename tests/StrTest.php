@@ -363,4 +363,18 @@ final class StrTest extends TestCase
         $this->assertSame($expected, $str->kebab()->toString());
     }
 
+    public static function reverseDataProvider(): array
+    {
+        return [
+            ['palindrome', 'emordnilap'],
+            ['red', 'der']
+        ];
+    }
+
+    #[DataProvider('reverseDataProvider')]
+    public function testReverse(string $string, string $reversed): void
+    {
+        $str = new Str($string);
+        $this->assertSame($reversed, $str->reverse()->toString());
+    }
 }

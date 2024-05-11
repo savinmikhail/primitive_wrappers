@@ -26,6 +26,7 @@ use function str_repeat;
 /**
  * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods) //todo: am i need to split this class?
  * @phan-file-suppress PhanRedefinedInheritedInterface
  */
 readonly class Str implements Stringable, JsonSerializable
@@ -360,5 +361,19 @@ readonly class Str implements Stringable, JsonSerializable
         $snake = strtolower($snake);
 
         return new static($snake);
+    }
+
+    /**
+     * reverse the given string
+     */
+    public function reverse(): static
+    {
+        return new self(
+            implode(
+                array_reverse(
+                    mb_str_split($this->str)
+                )
+            )
+        );
     }
 }

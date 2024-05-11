@@ -272,4 +272,33 @@ readonly class Str implements Stringable, JsonSerializable
     {
         return $this->sub(0, $length)->append($ending);
     }
+
+    /**
+     * convert string to snake case
+     */
+    public function snake(): static
+    {
+        $callback = static function (array $matches): string {
+            // If the first capturing group matches a lowercase letter followed by an uppercase letter
+            return !empty($matches[1]) ?
+                // Concatenate the lowercase letter from the first capturing group with an underscore and the uppercase
+                // letter from the second capturing group
+                 $matches[1] . '_' . $matches[2] :
+
+                // Replace spaces, hyphens with underscores
+                '_';
+        };
+
+        // Replace camel case boundaries, spaces, hyphens, and underscores with underscores
+        $snake = preg_replace_callback(
+            '/([a-z0-9])([A-Z])|[\s-]+/',
+            $callback,
+            $this->str
+        );
+
+        // Convert the resulting string to lowercase
+        $snake = strtolower($snake);
+
+        return new static($snake);
+    }
 }

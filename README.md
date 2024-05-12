@@ -38,7 +38,7 @@ Run
 
 `composer require savinmikhail/primitive_wrappers`
 
-### Example Usage
+## Example Usage
 
 ```php
 use Mikhail\PrimitiveWrappers\Str;
@@ -48,13 +48,11 @@ $str = new Str('Hello, world!');
 
 // Get the length of the string
 $length = $str->length();
-echo "Length: $length\n";
 
-// Use method as builder
-$lowercase = $str->toLowerCase()->capitalize();
-echo "Lowercase capitalized: $lowercase\n";
+// Use methods as a builder
+$lowercaseCapitalized = $str->toLower()->capitalize();
 
-//use some complicated methods:
+//use some more advanced methods
 $snake = (new Str('Lorem ipsum dolor sit amet'))->snake(); //lorem_ipsum_dolor_sit_amet
 ```
 

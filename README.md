@@ -1,7 +1,12 @@
 <p align="center">
-    <img src="https://www.elegantobjects.org/badge.svg" alt="EO principles respected here">
+    <a href="https://www.elegantobjects.org">
+        <img src="https://www.elegantobjects.org/badge.svg" alt="EO principles respected here">
+    </a>
     <a href="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/?branch=main">
         <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/coverage.png?b=main" alt="Code Coverage">
+    </a>
+    <a href="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/?branch=main">
+        <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/quality-score.png?b=main" alt="Quality Score>
     </a>
 </p>
 

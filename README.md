@@ -6,7 +6,7 @@
         <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/coverage.png?b=main" alt="Code Coverage">
     </a>
     <a href="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/?branch=main">
-        <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/quality-score.png?b=main" alt="Quality Score>
+        <img src="https://scrutinizer-ci.com/g/savinmikhail/primitive_wrappers/badges/quality-score.png?b=main" alt="Quality Score">
     </a>
 </p>
 

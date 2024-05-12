@@ -33,6 +33,9 @@ or threw Error or Exception.
 readability and maintainability, so you don't have to worry 
 whether function calls `str_split` or `strSplit` or `split`. Either to remember what some `strpbrk` mean
 
+
+- **Advanced Methods**: You can convert cases (e.g. from camel to snake) fluebtly, or get words from string, and many more!
+
 ## Installation
 
 Run

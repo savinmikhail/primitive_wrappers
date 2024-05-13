@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use const PHP_INT_MAX;
 
 #[CoversClass(Str::class)]
 final class StrTest extends TestCase
@@ -391,5 +392,34 @@ final class StrTest extends TestCase
     {
         $str = new Str($string);
         $this->assertSame($words, $str->words());
+    }
+
+    public static function explodeDataProvider(): array
+    {
+        return [
+            ['s,s,s', ',', PHP_INT_MAX, ['s','s','s']],
+        ];
+    }
+
+    #[DataProvider('explodeDataProvider')]
+    public function testExplode(string $string, string $separator, int $limit, array $exploded): void
+    {
+        $str = new Str($string);
+        $this->assertSame($exploded, $str->explode($separator, $limit));
+    }
+
+    public static function explodeExceptionDataProvider(): array
+    {
+        return [
+            ['s,s,s', ''],
+        ];
+    }
+
+    #[DataProvider('explodeExceptionDataProvider')]
+    public function testExplodeException(string $string, string $separator): void
+    {
+        $str = new Str($string);
+        $this->expectException(StrException::class);
+        $str->explode($separator);
     }
 }

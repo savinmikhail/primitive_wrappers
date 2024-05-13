@@ -11,17 +11,30 @@ use stdClass;
 use ValueError;
 use JsonSerializable;
 
+use function array_reverse;
+use function explode;
+use function implode;
+use function lcfirst;
+use function preg_match;
+use function preg_match_all;
+use function preg_replace_callback;
 use function strlen;
 use function mb_strlen;
 use function mb_detect_encoding;
 use function json_decode;
 use function mb_strtolower;
 use function mb_strtoupper;
+use function strtolower;
+use function strtoupper;
 use function trim;
 use function ucfirst;
 use function str_split;
 use function str_replace;
 use function str_repeat;
+use function mb_substr;
+use function mb_strpos;
+
+use const PHP_INT_MAX;
 
 /**
  * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
@@ -388,5 +401,18 @@ readonly class Str implements Stringable, JsonSerializable
 
         // Return the array of matched words
         return $matches[0];
+    }
+
+    /**
+     * Explode the string into an array.
+     * @throws StrException
+     */
+    public function explode(string $separator, int $limit = PHP_INT_MAX): array
+    {
+        try {
+            return explode($separator, $this->str, $limit);
+        } catch (ValueError $e) {
+            throw new StrException('Failed to explode', 0, $e);
+        }
     }
 }

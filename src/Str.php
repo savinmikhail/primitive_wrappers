@@ -12,6 +12,7 @@ use ValueError;
 use JsonSerializable;
 
 use function array_reverse;
+use function crypt;
 use function explode;
 use function implode;
 use function lcfirst;
@@ -24,11 +25,8 @@ use function mb_detect_encoding;
 use function json_decode;
 use function mb_strtolower;
 use function mb_strtoupper;
-use function strtolower;
-use function strtoupper;
 use function trim;
 use function ucfirst;
-use function str_split;
 use function str_replace;
 use function str_repeat;
 use function mb_substr;
@@ -40,6 +38,7 @@ use const PHP_INT_MAX;
  * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.TooManyMethods) //todo: am i need to split this class?
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @phan-file-suppress PhanRedefinedInheritedInterface
  */
 readonly class Str implements Stringable, JsonSerializable
@@ -160,7 +159,7 @@ readonly class Str implements Stringable, JsonSerializable
     public function split(int $length = 1): array
     {
         try {
-            return str_split($this->str, $length);
+            return mb_str_split($this->str, $length);
         } catch (ValueError $e) {
             throw new StrException('Failed to split', 0, $e);
         }
@@ -184,7 +183,7 @@ readonly class Str implements Stringable, JsonSerializable
     }
 
     /**
-     * get string concatenated with itself multiple times
+     * get string concatenated with itstatic multiple times
      * @throws StrException
      */
     public function repeat(int $times): static
@@ -211,7 +210,7 @@ readonly class Str implements Stringable, JsonSerializable
      */
     public function isEmpty(): bool
     {
-        return $this->str === "";
+        return $this->length() === 0;
     }
 
     /**
@@ -271,12 +270,17 @@ readonly class Str implements Stringable, JsonSerializable
     /**
      * check, if the string contains at least one occurrence of substring
      */
-    public function contains(string $needle, bool $ignoreCase): bool
+    public function contains(string $needle): bool
     {
-        if ($ignoreCase) {
-            return str_contains(mb_strtolower($this->str), mb_strtolower($needle));
-        }
         return str_contains($this->str, $needle);
+    }
+
+    /**
+     * check, if the string contains at least one occurrence of substring, case is ignored
+     */
+    public function containsIgnoreCase(string $needle): bool
+    {
+        return str_contains($this->toLower()->toString(), (new static($needle))->toLower()->toString());
     }
 
     /**
@@ -311,14 +315,15 @@ readonly class Str implements Stringable, JsonSerializable
         );
 
         // Convert the resulting string to lowercase
-        $snake = strtolower($snake);
-
-        return new static($snake);
+        return (new static($snake))->toLower();
     }
 
+    /**
+     * check, whether string is in snake case or not
+     */
     public function isSnake(): bool
     {
-        return preg_match('/^[a-z0-9]+(?:_[a-z0-9]+)*$/', $this->str) === 1;
+        return $this->matches(new self('/^[a-z0-9]+(?:_[a-z0-9]+)*$/'));
     }
 
     /**
@@ -329,7 +334,7 @@ readonly class Str implements Stringable, JsonSerializable
         // Define the callback function
         $callback = static function (array $matches): string {
             // Convert the matched character to uppercase
-            return strtoupper($matches[1]);
+            return mb_strtoupper($matches[1]);
         };
 
         // Replace camel case boundaries, spaces, hyphens, and underscores with uppercase letters
@@ -369,20 +374,19 @@ readonly class Str implements Stringable, JsonSerializable
         );
 
         // Convert the resulting string to lowercase
-        $snake = strtolower($snake);
-
-        return new static($snake);
+        return (new static($snake))->toLower();
     }
 
     /**
      * reverse the given string
+     * @throws StrException
      */
     public function reverse(): static
     {
-        return new self(
+        return new static(
             implode(
                 array_reverse(
-                    mb_str_split($this->str)
+                    $this->split()
                 )
             )
         );
@@ -414,5 +418,70 @@ readonly class Str implements Stringable, JsonSerializable
         } catch (ValueError $e) {
             throw new StrException('Failed to explode', 0, $e);
         }
+    }
+
+    /**
+     * Check if the string is a valid JSON
+     */
+    public function isJson(): bool
+    {
+        json_decode($this->str);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    /**
+     * check whether the string equals to the provided one
+     */
+    public function compareTo(self $string): bool
+    {
+        return $this->str === $string->str;
+    }
+
+    /**
+     * check whether the string equals to the provided one, while case being ignored
+     */
+    public function compareToIgnoreCase(self $string): bool
+    {
+        return $this->toLower()->toString() === $string->toLower()->toString();
+    }
+
+    /**
+     * check, if the string contains only 'invisible' symbols, like whitespaces, EOLs, etc.
+     */
+    public function isBlank(): bool
+    {
+        return $this->trim()->isEmpty();
+    }
+
+    /**
+     * check if the string matches provided regular expression
+     */
+    public function matches(self $regex): bool
+    {
+        return preg_match($regex->toString(), $this->str) === 1;
+    }
+
+    /**
+     *  check whether the string equals to the provided one
+     */
+    public function crypt(self $salt): static
+    {
+        return new static(crypt($this->str, $salt->toString()));
+    }
+
+    /**
+     * Strip HTML and PHP tags from a string
+     */
+    public function stripTags(): static
+    {
+        return new static(strip_tags($this->str));
+    }
+
+    /**
+     * Convert special characters to HTML entities
+     */
+    public function htmlSpecialChars(): static
+    {
+        return new static(htmlspecialchars($this->str));
     }
 }

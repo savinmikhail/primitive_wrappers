@@ -7,9 +7,13 @@ namespace Mikhail\Tests\PrimitiveWrappers;
 use Mikhail\PrimitiveWrappers\Exceptions\StrException;
 use Mikhail\PrimitiveWrappers\Str;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+
+use function json_encode;
+use function random_bytes;
+use function strlen;
+
 use const PHP_INT_MAX;
 
 #[CoversClass(Str::class)]
@@ -266,19 +270,36 @@ final class StrTest extends TestCase
     public static function containsDataProvider(): array
     {
         return [
-            ['Hello, world!', 'Hello, world!', false, true],
-            ['Hello, world!', 'world', false, true],
-            ['Hello, world!', 'WORLD', true, true],
-            ['Hello, world!', 'WORLD', false, false],
-            ['Hello, world!', '', false, true],
+            ['Hello, world!', 'Hello, world!', true],
+            ['Hello, world!', 'world', true],
+            ['Hello, world!', 'WORLD', false],
+            ['Hello, world!', '', true],
         ];
     }
 
     #[DataProvider('containsDataProvider')]
-    public function testContains(string $string, string $needle, bool $ignoreCase, bool $expected): void
+    public function testContains(string $string, string $needle, bool $expected): void
     {
         $str = new Str($string);
-        $this->assertSame($expected, $str->contains($needle, $ignoreCase));
+        $this->assertSame($expected, $str->contains($needle));
+    }
+
+    public static function containsIgnoreCaseDataProvider(): array
+    {
+        return [
+            ['Hello, world!', 'Hello, world!', true],
+            ['Hello, world!', 'world', true],
+            ['Hello, world!', 'WORLD', true],
+            ['Hello, world!', 'HI', false],
+            ['Hello, world!', '', true],
+        ];
+    }
+
+    #[DataProvider('containsIgnoreCaseDataProvider')]
+    public function testContainsIgnoreCase(string $string, string $needle, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->containsIgnoreCase($needle));
     }
 
     public static function truncateDataProvider(): array
@@ -421,5 +442,90 @@ final class StrTest extends TestCase
         $str = new Str($string);
         $this->expectException(StrException::class);
         $str->explode($separator);
+    }
+
+    public static function isJsonDataProvider(): array
+    {
+        return [
+            ["{'some_invalid_json", false],
+            [json_encode('some valid json'), true]
+        ];
+    }
+
+    #[DataProvider('isJsonDataProvider')]
+    public function testIsJson(string $string, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertEquals($expected, $str->isJson());
+    }
+
+    public static function compareToDataProvider(): array
+    {
+        return [
+            ['string', 'string', true],
+            ['string', 'STRING', false],
+            ['string', '', false],
+            ['', 'string', false],
+            ['asd', 'string', false],
+        ];
+    }
+
+    #[DataProvider('compareToDataProvider')]
+    public function testCompareTo(string $string, string $compareTo, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->compareTo(new Str($compareTo)));
+    }
+
+    public static function compareToIgnoreCaseDataProvider(): array
+    {
+        return [
+            ['string', 'string', true],
+            ['string', 'STRING', true],
+            ['string', '', false],
+            ['', 'string', false],
+            ['asd', 'string', false],
+        ];
+    }
+
+    #[DataProvider('compareToIgnoreCaseDataProvider')]
+    public function testCompareToIgnoreCase(string $string, string $compareTo, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->compareToIgnoreCase(new Str($compareTo)));
+    }
+
+    public static function isBlankDataProvider(): array
+    {
+        return [
+            ['', true],
+            [' ', true],
+            ["\n", true],
+        ];
+    }
+
+    #[DataProvider('isBlankDataProvider')]
+    public function testIsBlank(string $string, bool $expected): void
+    {
+        $str = new Str($string);
+        $this->assertSame($expected, $str->isBlank());
+    }
+
+    public function testCrypt(): void
+    {
+        $str = new Str('test');
+        $this->assertSame('salSp1wOPp6fk', $str->crypt(new Str('salt'))->toString());
+    }
+
+    public function testStripTags(): void
+    {
+        $str = new Str('<b>test</b>');
+        $this->assertSame('test', $str->stripTags()->toString());
+    }
+
+    public function testHtmlSpecialChars()
+    {
+        $str = new Str('test&');
+        $this->assertSame('test&amp;', $str->htmlSpecialChars()->toString());
     }
 }

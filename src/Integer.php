@@ -6,7 +6,8 @@ namespace Mikhail\PrimitiveWrappers;
 
 use Error;
 use Mikhail\PrimitiveWrappers\Exceptions\IntException;
-use Mikhail\PrimitiveWrappers\Exceptions\StrException;
+use Mikhail\PrimitiveWrappers\Str\Exceptions\StrException;
+use Mikhail\PrimitiveWrappers\Str\Str;
 
 use function abs;
 use function log;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mikhail\Tests\PrimitiveWrappers;
 
-use Mikhail\PrimitiveWrappers\Exceptions\StrException;
-use Mikhail\PrimitiveWrappers\Str;
+use Mikhail\PrimitiveWrappers\Str\Exceptions\StrException;
+use Mikhail\PrimitiveWrappers\Str\Str;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

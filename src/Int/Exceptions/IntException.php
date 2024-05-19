@@ -1,6 +1,6 @@
 <?php
 
-namespace Mikhail\PrimitiveWrappers\Exceptions;
+namespace Mikhail\PrimitiveWrappers\Int\Exceptions;
 
 use Exception;
 

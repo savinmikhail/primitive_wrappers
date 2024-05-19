@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mikhail\PrimitiveWrappers;
+namespace Mikhail\PrimitiveWrappers\Int;
 
 use Error;
-use Mikhail\PrimitiveWrappers\Exceptions\IntException;
+use Mikhail\PrimitiveWrappers\Int\Exceptions\IntException;
 use Mikhail\PrimitiveWrappers\Str\Exceptions\StrException;
 use Mikhail\PrimitiveWrappers\Str\Str;
 

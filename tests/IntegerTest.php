@@ -2,8 +2,8 @@
 
 namespace Mikhail\Tests\PrimitiveWrappers;
 
-use Mikhail\PrimitiveWrappers\Exceptions\IntException;
-use Mikhail\PrimitiveWrappers\Integer;
+use Mikhail\PrimitiveWrappers\Int\Exceptions\IntException;
+use Mikhail\PrimitiveWrappers\Int\Integer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

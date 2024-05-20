@@ -523,7 +523,7 @@ final class StrTest extends TestCase
         $this->assertSame('test', $str->stripTags()->toString());
     }
 
-    public function testHtmlSpecialChars()
+    public function testHtmlSpecialChars(): void
     {
         $str = new Str('test&');
         $this->assertSame('test&amp;', $str->htmlSpecialChars()->toString());

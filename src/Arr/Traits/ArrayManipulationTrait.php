@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace Mikhail\PrimitiveWrappers\Arr\Traits;
 
 use Mikhail\PrimitiveWrappers\Arr\Exceptions\ArrayException;
+use Mikhail\PrimitiveWrappers\Arr\Interfaces\BasicArrayInterface;
 
+use function array_filter;
+use function array_merge;
+use function array_pop;
+use function array_reduce;
 use function array_slice;
 
 use const PHP_INT_MAX;
 
 trait ArrayManipulationTrait
 {
-    public function merge(self $array): static
+    public function merge(BasicArrayInterface $array): static
     {
-        return new static(array_merge($this->array, $array->toArray()));
+        return new static(array_merge($this->array, $array->array));
     }
 
     public function slice(int $offset, int $length = PHP_INT_MAX): static
@@ -37,12 +42,17 @@ trait ArrayManipulationTrait
         return new static(array_map($callback, $this->array));
     }
 
-    public function reduce(callable $callback, $initial = null): mixed
+    public function reduce(callable $callback): mixed
+    {
+        return array_reduce($this->array, $callback);
+    }
+
+    public function reduceWithInitial(callable $callback, mixed $initial): mixed
     {
         return array_reduce($this->array, $callback, $initial);
     }
 
-    public function push($value): static
+    public function push(mixed $value): static
     {
         $newArray = $this->array;
         $newArray[] = $value;
@@ -80,5 +90,19 @@ trait ArrayManipulationTrait
         $newArray = $this->array;
         array_unshift($newArray, $value);
         return new static($newArray);
+    }
+
+    public function count(): int
+    {
+        return count($this->array);
+    }
+
+    /**
+     * get the number of elements starting from ero (count() - 1)
+     * can be useful in iterations
+     */
+    public function length(): int
+    {
+        return $this->count() - 1;
     }
 }

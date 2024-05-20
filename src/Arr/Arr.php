@@ -11,18 +11,18 @@ use Mikhail\PrimitiveWrappers\Arr\Traits\{
     JsonOperationsTrait,
     ValidationTrait
 };
-use Mikhail\PrimitiveWrappers\Arr\Interfaces\{
-    ArrayManipulationInterface,
+use Mikhail\PrimitiveWrappers\Arr\Interfaces\{ArrayManipulationInterface,
+    BasicArrayInterface,
     JsonOperationsInterface,
-    ValidationInterface
-};
+    ValidationInterface};
 
 class Arr implements
     ArrayAccess,
     JsonSerializable,
     JsonOperationsInterface,
     ArrayManipulationInterface,
-    ValidationInterface
+    ValidationInterface,
+    BasicArrayInterface
 {
     use ArrayManipulationTrait;
     use JsonOperationsTrait;
@@ -32,7 +32,6 @@ class Arr implements
     {
     }
 
-    // ArrayAccess methods
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->array[$offset]);

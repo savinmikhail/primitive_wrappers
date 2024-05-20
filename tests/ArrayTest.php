@@ -98,7 +98,8 @@ class ArrayTest extends TestCase
     {
         return [
             [['foo' => 'bar'], true],
-            [['bar'], false]
+            [['bar'], false],
+            [[], false]
         ];
     }
 
@@ -162,10 +163,20 @@ class ArrayTest extends TestCase
     {
         $array = [1, 2, 3, 4, 5];
         $arr = new Arr($array);
-        $this->assertEquals(true, $arr->reduce(static function ($carry, $item) {
+        $this->assertEquals(15, $arr->reduce(static function ($carry, $item): int {
             $carry += $item;
             return $carry;
         }));
+    }
+
+    public function testReduceWithInitial(): void
+    {
+        $array = [1, 2, 3, 4, 5];
+        $arr = new Arr($array);
+        $this->assertEquals(16, $arr->reduceWithInitial(static function ($carry, $item): int {
+            $carry += $item;
+            return $carry;
+        }, 1));
     }
 
     public function testPush(): void

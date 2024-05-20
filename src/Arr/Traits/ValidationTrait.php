@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Mikhail\PrimitiveWrappers\Arr\Traits;
 
+use function array_keys;
+use function array_values;
+use function in_array;
+use function range;
+
 trait ValidationTrait
 {
     public function isEmpty(): bool
@@ -28,9 +33,9 @@ trait ValidationTrait
 
     public function isAssoc(): bool
     {
-        if ([] === $this->array) {
+        if ($this->array === []) {
             return false;
         }
-        return array_keys($this->array) !== range(0, count($this->array) - 1);
+        return array_keys($this->array) !== range(0, $this->length());
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mikhail\PrimitiveWrappers\Int;
 
 use Error;
+use InvalidArgumentException;
 use Mikhail\PrimitiveWrappers\Int\Exceptions\IntException;
 use Mikhail\PrimitiveWrappers\Str\Exceptions\StrException;
 use Mikhail\PrimitiveWrappers\Str\Str;
@@ -123,5 +124,19 @@ readonly class Integer
     public function log(): float
     {
         return log($this->value);
+    }
+
+    public function scaleToRange(float $value, float $min, float $max): float
+    {
+        if ($min >= $max) {
+            throw new InvalidArgumentException("Minimum value must be less than maximum value.");
+        }
+        $scaledValue = ($value - $min) / ($max - $min);
+        return $this->ensureInRange($scaledValue, 0, 1);
+    }
+
+    public function ensureInRange(float $value, float $min, float $max): float
+    {
+        return max($min, min($max, $value));
     }
 }

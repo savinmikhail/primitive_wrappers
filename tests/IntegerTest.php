@@ -24,7 +24,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isPositiveDataProvider')]
     public function testIsPositive(int $num, bool $expected): void
     {
         $int = new Integer($num);
@@ -40,7 +39,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isNegativeDataProvider')]
     public function testIsNegative(int $num, bool $expected): void
     {
         $int = new Integer($num);
@@ -56,7 +54,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('toPositiveDataProvider')]
     public function testToPositive(int $num, int $expected): void
     {
         $int = new Integer($num);
@@ -72,7 +69,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('toNegativeDataProvider')]
     public function testToNegative(int $num, int $expected): void
     {
         $int = new Integer($num);
@@ -99,7 +95,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('incrementDataProvider')]
     public function testIncrement(int $integer, int $expected): void
     {
         $int = new Integer($integer);
@@ -114,7 +109,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('decrementDataProvider')]
     public function testDecrement(int $integer, int $expected): void
     {
         $int = new Integer($integer);
@@ -130,7 +124,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isGreaterThanDataProvider')]
     public function testIsGreaterThan(int $integer, int $compareTo, bool $expected): void
     {
         $int = new Integer($integer);
@@ -146,7 +139,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isGreaterThanOrEqualToDataProvider')]
     public function testIsGreaterThanOrEqualTo(int $integer, int $compareTo, bool $expected): void
     {
         $int = new Integer($integer);
@@ -162,7 +154,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isLessThanOrEqualToDataProvider')]
     public function testIsLessThanOrEqualTo(int $integer, int $compareTo, bool $expected): void
     {
         $int = new Integer($integer);
@@ -178,7 +169,6 @@ class IntegerTest extends TestCase
         ];
     }
 
-    #[DataProvider('isLessThanDataProvider')]
     public function testIsLessThan(int $integer, int $compareTo, bool $expected): void
     {
         $int = new Integer($integer);

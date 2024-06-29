@@ -12,8 +12,9 @@ trait CaseConversionTrait
 {
     /**
      * convert string to snake case
+     * @return static
      */
-    public function snake(): static
+    public function snake()
     {
         $callback = static function (array $matches): string {
             return !empty($matches[1]) ? $matches[1] . '_' . $matches[2] : '_';
@@ -30,8 +31,9 @@ trait CaseConversionTrait
 
     /**
      * convert string to camel case
+     * @return static
      */
-    public function camel(): static
+    public function camel()
     {
         $callback = static function (array $matches): string {
             return mb_strtoupper($matches[1]);
@@ -50,8 +52,9 @@ trait CaseConversionTrait
 
     /**
      * convert string to kebab case
+     * @return static
      */
-    public function kebab(): static
+    public function kebab()
     {
         $callback = static function (array $matches): string {
             return !empty($matches[1]) ? $matches[1] . '-' . $matches[2] : '-';

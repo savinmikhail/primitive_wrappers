@@ -17,7 +17,7 @@ trait ValidationTrait
      */
     public function startsWith(string $needle): bool
     {
-        return str_starts_with($this->str, $needle);
+        return strncmp($this->str, $needle, strlen($needle)) === 0;
     }
 
     /**
@@ -25,7 +25,7 @@ trait ValidationTrait
      */
     public function endsWith(string $needle): bool
     {
-        return str_ends_with($this->str, $needle);
+        return substr_compare($this->str, $needle, -strlen($needle)) === 0;
     }
 
     /**
@@ -33,7 +33,7 @@ trait ValidationTrait
      */
     public function contains(string $needle): bool
     {
-        return str_contains($this->str, $needle);
+        return strpos($this->str, $needle) !== false;
     }
 
     /**
@@ -41,7 +41,7 @@ trait ValidationTrait
      */
     public function containsIgnoreCase(string $needle): bool
     {
-        return str_contains($this->toLower()->toString(), (new static($needle))->toLower()->toString());
+        return strpos($this->toLower()->toString(), (new static($needle))->toLower()->toString()) !== false;
     }
 
     /**

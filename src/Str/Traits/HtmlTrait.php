@@ -11,16 +11,18 @@ trait HtmlTrait
 {
     /**
      * Strip HTML and PHP tags from a string
+     * @return static
      */
-    public function stripTags(): static
+    public function stripTags()
     {
         return new static(strip_tags($this->str));
     }
 
     /**
      * Convert special characters to HTML entities
+     * @return static
      */
-    public function htmlSpecialChars(): static
+    public function htmlSpecialChars()
     {
         return new static(htmlspecialchars($this->str));
     }

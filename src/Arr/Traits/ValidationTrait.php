@@ -16,7 +16,10 @@ trait ValidationTrait
         return empty($this->array);
     }
 
-    public function contains(mixed $value): bool
+    /**
+     * @param mixed $value
+     */
+    public function contains($value): bool
     {
         return in_array($value, $this->array, true);
     }

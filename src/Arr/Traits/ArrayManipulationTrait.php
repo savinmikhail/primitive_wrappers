@@ -17,42 +17,72 @@ use const PHP_INT_MAX;
 
 trait ArrayManipulationTrait
 {
-    public function merge(BasicArrayInterface $array): static
+    /**
+     * @return static
+     */
+    public function merge(BasicArrayInterface $array)
     {
         return new static(array_merge($this->array, $array->array));
     }
 
-    public function slice(int $offset, int $length = PHP_INT_MAX): static
+    /**
+     * @return static
+     */
+    public function slice(int $offset, int $length = PHP_INT_MAX)
     {
         return new static(array_slice($this->array, $offset, $length));
     }
 
-    public function slicePreserveKeys(int $offset, int $length = PHP_INT_MAX): static
+    /**
+     * @return static
+     */
+    public function slicePreserveKeys(int $offset, int $length = PHP_INT_MAX)
     {
         return new static(array_slice($this->array, $offset, $length, true));
     }
 
-    public function filter(callable $callback): static
+    /**
+     * @return static
+     */
+    public function filter(callable $callback)
     {
-        return new static(array_filter($this->array, $callback));
+        return new static(
+            array_filter($this->array, $callback === null
+                ? fn($value, $key): bool => !empty($value)
+                : $callback, $callback === null ? ARRAY_FILTER_USE_BOTH : 0)
+        );
     }
 
-    public function map(callable $callback): static
+    /**
+     * @return static
+     */
+    public function map(callable $callback)
     {
         return new static(array_map($callback, $this->array));
     }
 
-    public function reduce(callable $callback): mixed
+    /**
+     * @return mixed
+     */
+    public function reduce(callable $callback)
     {
         return array_reduce($this->array, $callback);
     }
 
-    public function reduceWithInitial(callable $callback, mixed $initial): mixed
+    /**
+     * @param mixed $initial
+     * @return mixed
+     */
+    public function reduceWithInitial(callable $callback, $initial)
     {
         return array_reduce($this->array, $callback, $initial);
     }
 
-    public function push(mixed $value): static
+    /**
+     * @param mixed $value
+     * @return static
+     */
+    public function push($value)
     {
         $newArray = $this->array;
         $newArray[] = $value;
@@ -61,8 +91,9 @@ trait ArrayManipulationTrait
 
     /**
      * @throws ArrayException
+     * @return static
      */
-    public function pop(): static
+    public function pop()
     {
         if ($this->isEmpty()) {
             throw new ArrayException("Cannot pop from an empty array.");
@@ -74,8 +105,9 @@ trait ArrayManipulationTrait
 
     /**
      * @throws ArrayException
+     * @return static
      */
-    public function shift(): static
+    public function shift()
     {
         if ($this->isEmpty()) {
             throw new ArrayException("Cannot shift from an empty array.");
@@ -85,7 +117,11 @@ trait ArrayManipulationTrait
         return new static($newArray);
     }
 
-    public function unshift(mixed $value): static
+    /**
+     * @param mixed $value
+     * @return static
+     */
+    public function unshift($value)
     {
         $newArray = $this->array;
         array_unshift($newArray, $value);

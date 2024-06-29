@@ -30,8 +30,7 @@ use Mikhail\PrimitiveWrappers\Str\Interfaces\{
  * anything in ASCII works as in UTF-8, so we use mb_ functions everywhere
  * @phan-file-suppress PhanRedefinedInheritedInterface
  */
-readonly class Str implements
-    Stringable,
+class Str implements
     JsonSerializable,
     JsonOperationsInterface,
     StringManipulationInterface,
@@ -48,7 +47,13 @@ readonly class Str implements
     use HtmlTrait;
     use MiscellaneousTrait;
 
-    public function __construct(protected string $str)
+    /**
+     * @readonly
+     */
+    protected string $str;
+
+    public function __construct(string $str)
     {
+        $this->str = $str;
     }
 }

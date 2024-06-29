@@ -19,10 +19,15 @@ use function strval;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-readonly class Integer
+class Integer
 {
-    public function __construct(protected int $value)
+    /**
+     * @readonly
+     */
+    protected int $value;
+    public function __construct(int $value)
     {
+        $this->value = $value;
     }
 
     public function toInt(): int
@@ -30,12 +35,18 @@ readonly class Integer
         return $this->value;
     }
 
-    public function toPositive(): static
+    /**
+     * @return static
+     */
+    public function toPositive()
     {
         return new static(abs($this->value));
     }
 
-    public function toNegative(): static
+    /**
+     * @return static
+     */
+    public function toNegative()
     {
         return new static(-abs($this->value));
     }
@@ -64,12 +75,18 @@ readonly class Integer
         return new Str($zeroes->toString() . strval($this->value));
     }
 
-    public function increment(): static
+    /**
+     * @return static
+     */
+    public function increment()
     {
         return new static($this->value + 1);
     }
 
-    public function decrement(): static
+    /**
+     * @return static
+     */
+    public function decrement()
     {
         return new static($this->value - 1);
     }
@@ -94,15 +111,19 @@ readonly class Integer
         return $this->value <= $value;
     }
 
-    public function power(self $exponent): float|int
+    /**
+     * @return float|int
+     */
+    public function power(self $exponent)
     {
         return pow($this->value, $exponent->toInt());
     }
 
     /**
      * @throws IntException
+     * @return float|int
      */
-    public function divide(self $divisor): float|int
+    public function divide(self $divisor)
     {
         try {
             return $this->value / $divisor->value;
@@ -111,7 +132,10 @@ readonly class Integer
         }
     }
 
-    public function multiply(self $multiplier): static
+    /**
+     * @return static
+     */
+    public function multiply(self $multiplier)
     {
         return new static($this->value * $multiplier->toInt());
     }

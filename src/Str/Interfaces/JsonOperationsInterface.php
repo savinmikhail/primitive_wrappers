@@ -8,8 +8,14 @@ use stdClass;
 
 interface JsonOperationsInterface
 {
-    public function jsonDecodeAssociative(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|array;
-    public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|stdClass;
+    /**
+     * @return mixed[]|string
+     */
+    public function jsonDecodeAssociative(int $depth = 512, int $options = JSON_THROW_ON_ERROR);
+    /**
+     * @return string|\stdClass
+     */
+    public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR);
     public function isJson(): bool;
     public function jsonSerialize(): string;
 }

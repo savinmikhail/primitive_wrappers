@@ -20,8 +20,9 @@ trait JsonOperationsTrait
      * Get associative array from json string
      * The $associative param was removed, due to violation of single responsibility principle
      * @throws StrException
+     * @return mixed[]|string
      */
-    public function jsonDecodeAssociative(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|array
+    public function jsonDecodeAssociative(int $depth = 512, int $options = JSON_THROW_ON_ERROR)
     {
         try {
             $decodingResult = json_decode($this->str, true, $depth, $options);
@@ -37,8 +38,9 @@ trait JsonOperationsTrait
     /**
      * Get object from json string
      * @throws StrException
+     * @return string|\stdClass
      */
-    public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR): string|stdClass
+    public function jsonDecodeObject(int $depth = 512, int $options = JSON_THROW_ON_ERROR)
     {
         try {
             $decodingResult = json_decode($this->str, false, $depth, $options);

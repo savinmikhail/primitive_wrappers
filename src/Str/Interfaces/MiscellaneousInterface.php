@@ -10,5 +10,8 @@ interface MiscellaneousInterface
     public function explode(string $separator, int $limit = PHP_INT_MAX): array;
     public function compareTo(Str $string): bool;
     public function compareToIgnoreCase(Str $string): bool;
-    public function crypt(Str $salt): static;
+    /**
+     * @return static
+     */
+    public function crypt(Str $salt);
 }

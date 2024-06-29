@@ -66,7 +66,6 @@ class ArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('isEmptyDataProvider')]
     public function testIsEmpty(array $array, bool $expected): void
     {
         $arr = new Arr($array);
@@ -103,7 +102,6 @@ class ArrayTest extends TestCase
         ];
     }
 
-    #[DataProvider('isAssocDataProvider')]
     public function testIsAssoc(array $array, bool $expected): void
     {
         $arr = new Arr($array);
@@ -145,7 +143,7 @@ class ArrayTest extends TestCase
     {
         $array = ['foo' => 'bar'];
         $arr = new Arr($array);
-        $this->assertEquals(['foo' => 'bar'], $arr->filter(static function (mixed $value): bool {
+        $this->assertEquals(['foo' => 'bar'], $arr->filter(static function ($value): bool {
             return is_string($value);
         })->toArray());
     }
@@ -154,7 +152,7 @@ class ArrayTest extends TestCase
     {
         $array = ['foo' => 'bar'];
         $arr = new Arr($array);
-        $this->assertEquals(['foo' => 'bar'], $arr->map(static function (mixed $value): bool {
+        $this->assertEquals(['foo' => 'bar'], $arr->map(static function ($value): bool {
             return is_string($value);
         })->toArray());
     }

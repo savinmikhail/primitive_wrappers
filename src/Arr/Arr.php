@@ -28,26 +28,44 @@ class Arr implements
     use JsonOperationsTrait;
     use ValidationTrait;
 
-    public function __construct(protected array $array)
+    protected array $array;
+
+    public function __construct(array $array)
     {
+        $this->array = $array;
     }
 
-    public function offsetExists(mixed $offset): bool
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset): bool
     {
         return isset($this->array[$offset]);
     }
 
-    public function offsetGet(mixed $offset): mixed
+    /**
+     * @param mixed $offset
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         return $this->array[$offset];
     }
 
-    public function offsetSet(mixed $offset, mixed $value): void
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value): void
     {
         $this->array[$offset] = $value;
     }
 
-    public function offsetUnset(mixed $offset): void
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset): void
     {
         unset($this->array[$offset]);
     }

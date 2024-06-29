@@ -23,21 +23,26 @@ trait StringManipulationTrait
 {
     /**
      * Convert all upper letters to lower
+     * @return static
      */
-    public function toLower(): static
+    public function toLower()
     {
         return new static(mb_strtolower($this->str));
     }
 
     /**
      * convert all lower case letters to upper
+     * @return static
      */
-    public function toUpper(): static
+    public function toUpper()
     {
         return new static(mb_strtoupper($this->str));
     }
 
-    public function trim(string $characters = " \n\r\t\v\0"): static
+    /**
+     * @return static
+     */
+    public function trim(string $characters = " \n\r\t\v\0")
     {
         $str = trim($this->str, $characters);
         return new static($str);
@@ -59,8 +64,9 @@ trait StringManipulationTrait
 
     /**
      * make first letter upper case
+     * @return static
      */
-    public function capitalize(): static
+    public function capitalize()
     {
         return new static(ucfirst($this->str));
     }
@@ -68,8 +74,9 @@ trait StringManipulationTrait
     /**
      * replace substring with another substring
      * todo: are we need array values here?
+     * @return static
      */
-    public function replace(string $search, string $replace, int &$count = 0): static
+    public function replace(string $search, string $replace, int &$count = 0)
     {
         return new static(str_replace($search, $replace, $this->str, $count));
     }
@@ -77,8 +84,9 @@ trait StringManipulationTrait
     /**
      * get string concatenated with itstatic multiple times
      * @throws StrException
+     * @return static
      */
-    public function repeat(int $times): static
+    public function repeat(int $times)
     {
         try {
             return new static(str_repeat($this->str, $times));
@@ -91,8 +99,9 @@ trait StringManipulationTrait
      * get substring
      * if you don't provide length, you'll get the whole string, so you don't need this function.
      * so the length argument is required
+     * @return static
      */
-    public function sub(int $start, int $length, string $encoding = "UTF-8"): static
+    public function sub(int $start, int $length, string $encoding = "UTF-8")
     {
         return new static(mb_substr($this->str, $start, $length, $encoding));
     }
@@ -113,24 +122,27 @@ trait StringManipulationTrait
 
     /**
      * add substring to the end of the string
+     * @return static
      */
-    public function append(string $suffix): static
+    public function append(string $suffix)
     {
         return new static($this->str . $suffix);
     }
 
     /**
      * add substring to the start of the string
+     * @return static
      */
-    public function prepend(string $suffix): static
+    public function prepend(string $suffix)
     {
         return new static($suffix . $this->str);
     }
 
     /**
      * cut the string to provided length and append ending
+     * @return static
      */
-    public function truncate(int $length = 100, string $ending = "..."): static
+    public function truncate(int $length = 100, string $ending = "...")
     {
         return $this->sub(0, $length)->append($ending);
     }
@@ -138,8 +150,9 @@ trait StringManipulationTrait
     /**
      * reverse the given string
      * @throws StrException
+     * @return static
      */
-    public function reverse(): static
+    public function reverse()
     {
         return new static(
             implode(

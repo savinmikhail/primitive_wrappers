@@ -57,8 +57,9 @@ trait MiscellaneousTrait
 
     /**
      *  check whether the string equals to the provided one
+     * @return static
      */
-    public function crypt(Str $salt): static
+    public function crypt(Str $salt)
     {
         return new static(crypt($this->str, $salt->toString()));
     }

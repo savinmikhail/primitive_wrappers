@@ -66,6 +66,9 @@ class ArrayTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider isEmptyDataProvider
+     */
     public function testIsEmpty(array $array, bool $expected): void
     {
         $arr = new Arr($array);
@@ -102,6 +105,9 @@ class ArrayTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider isAssocDataProvider
+     */
     public function testIsAssoc(array $array, bool $expected): void
     {
         $arr = new Arr($array);

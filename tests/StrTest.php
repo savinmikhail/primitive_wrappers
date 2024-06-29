@@ -26,10 +26,15 @@ final class StrTest extends TestCase
             ['あいうえお', 5],
         ];
     }
+
+    /**
+     * @dataProvider lengthDataProvider
+     */
     public function testLength(string $str, int $expectedLength): void
     {
         $this->assertEquals($expectedLength, (new Str($str))->length());
     }
+
     public static function isMultibyteDataProvider(): array
     {
         return [
@@ -38,10 +43,15 @@ final class StrTest extends TestCase
             ['あいうえお', true],
         ];
     }
+
+    /**
+     * @dataProvider isMultibyteDataProvider
+     */
     public function testIsMultibyte(string $str, bool $expectedIsMultibyte): void
     {
         $this->assertEquals($expectedIsMultibyte, (new Str($str))->isMultibyte());
     }
+
     public function testDetectEncodingThrowsException(): void
     {
         $this->markTestIncomplete('todo: generate more consistent string failure');
@@ -49,12 +59,14 @@ final class StrTest extends TestCase
         $this->expectException(StrException::class);
         $str->detectEncoding();
     }
+
     public function testToStringMagic(): void
     {
         $string = 'Hello, world!';
         $str = new Str($string);
         $this->assertSame($string, (string) $str);
     }
+
     public function testJsonDecodeAssociative(): void
     {
         $string = 'Hello, world!';
@@ -62,6 +74,7 @@ final class StrTest extends TestCase
         $str = (new Str($json))->jsonDecodeAssociative();
         $this->assertSame($string, $str);
     }
+
     public function testJsonDecodeObject(): void
     {
         $string = 'Hello, world!';
@@ -69,36 +82,42 @@ final class StrTest extends TestCase
         $str = (new Str($json))->jsonDecodeObject();
         $this->assertSame($string, $str);
     }
+
     public function testJsonDecodeErrorAssociative(): void
     {
         $json = "{'some_invalid_json";
         $this->expectException(StrException::class);
         (new Str($json))->jsonDecodeAssociative();
     }
+
     public function testJsonDecodeErrorObject(): void
     {
         $json = "{'some_invalid_json";
         $this->expectException(StrException::class);
         (new Str($json))->jsonDecodeObject();
     }
+
     public function testJsonDecodeErrorAssociativeWithoutThrowOnErrorFlag(): void
     {
         $json = "{'some_invalid_json";
         $this->expectException(StrException::class);
         (new Str($json))->jsonDecodeAssociative(512, 0);
     }
+
     public function testJsonDecodeErrorObjectWithoutThrowOnErrorFlag(): void
     {
         $json = "{'some_invalid_json";
         $this->expectException(StrException::class);
         (new Str($json))->jsonDecodeObject(512, 0);
     }
+
     public function testToString(): void
     {
         $string = 'Hello, world!';
         $str = new Str($string);
         $this->assertSame($string, $str->toString());
     }
+
     public function testTrim()
     {
         $string = 'Hello, world!';
@@ -106,12 +125,14 @@ final class StrTest extends TestCase
         $str = new Str($stringToTrim);
         $this->assertSame($string, $str->trim()->toString());
     }
+
     public function testToLower(): void
     {
         $string = 'Hello, world!';
         $str = new Str($string);
         $this->assertSame('hello, world!', $str->toLower()->toString());
     }
+
     public function testToUpper(): void
     {
         $string = 'hello, world!';
@@ -162,6 +183,10 @@ final class StrTest extends TestCase
             ['', true],
         ];
     }
+
+    /**
+     * @dataProvider isEmptyDataProvider
+     */
     public function testIsEmpty(string $string, bool $expectedResult): void
     {
         $str = new Str($string);
@@ -208,6 +233,10 @@ final class StrTest extends TestCase
             ['Hello, world!', 'some string', false],
         ];
     }
+
+    /**
+     * @dataProvider startsWithDataProvider
+     */
     public function testStartsWith(string $string, string $needle, bool $expected): void
     {
         $str = new Str($string);
@@ -223,6 +252,10 @@ final class StrTest extends TestCase
             ['Hello, world!', 'some string', false],
         ];
     }
+
+    /**
+     * @dataProvider endsWithDataProvider
+     */
     public function testEndsWith(string $string, string $needle, bool $expected): void
     {
         $str = new Str($string);
@@ -237,6 +270,10 @@ final class StrTest extends TestCase
             ['Hello, world!', '', true],
         ];
     }
+
+    /**
+     * @dataProvider containsDataProvider
+     */
     public function testContains(string $string, string $needle, bool $expected): void
     {
         $str = new Str($string);
@@ -252,6 +289,10 @@ final class StrTest extends TestCase
             ['Hello, world!', '', true],
         ];
     }
+
+    /**
+     * @dataProvider testContainsIgnoreCase
+     */
     public function testContainsIgnoreCase(string $string, string $needle, bool $expected): void
     {
         $str = new Str($string);
@@ -264,6 +305,10 @@ final class StrTest extends TestCase
             ['Hello, world!', strlen("Hello, world!"), '...', 'Hello, world!...'],
         ];
     }
+
+    /**
+     * @dataProvider truncateDataProvider
+     */
     public function testTruncate(string $string, int $length, string $ending, string $expected): void
     {
         $str = new Str($string);
@@ -278,6 +323,10 @@ final class StrTest extends TestCase
             ['hello-world', 'hello_world'],
         ];
     }
+
+    /**
+     * @dataProvider snakeDataProvider
+     */
     public function testSnake(string $string, string $expected): void
     {
         $str = new Str($string);
@@ -292,6 +341,10 @@ final class StrTest extends TestCase
             ['hello-world', false],
         ];
     }
+
+    /**
+     * @dataProvider isSnakeDataProvider
+     */
     public function testIsSnake(string $string, bool $expected): void
     {
         $str = new Str($string);
@@ -306,6 +359,10 @@ final class StrTest extends TestCase
             ['hello-world', 'helloWorld'],
         ];
     }
+
+    /**
+     * @dataProvider camelDataProvider
+     */
     public function testCamel(string $string, string $expected): void
     {
         $str = new Str($string);
@@ -320,6 +377,10 @@ final class StrTest extends TestCase
             ['hello-world', 'hello-world'],
         ];
     }
+
+    /**
+     * @dataProvider kebabDataProvider
+     */
     public function testKebab(string $string, string $expected): void
     {
         $str = new Str($string);
@@ -332,6 +393,10 @@ final class StrTest extends TestCase
             ['red', 'der']
         ];
     }
+
+    /**
+     * @dataProvider reverseDataProvider
+     */
     public function testReverse(string $string, string $reversed): void
     {
         $str = new Str($string);
@@ -344,6 +409,10 @@ final class StrTest extends TestCase
             ['Lorem ipsum dolor sit amet', ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']],
         ];
     }
+
+    /**
+     * @dataProvider testWords
+     */
     public function testWords(string $string, array $words): void
     {
         $str = new Str($string);
@@ -355,6 +424,11 @@ final class StrTest extends TestCase
             ['s,s,s', ',', PHP_INT_MAX, ['s','s','s']],
         ];
     }
+
+
+    /**
+     * @dataProvider explodeDataProvider
+     */
     public function testExplode(string $string, string $separator, int $limit, array $exploded): void
     {
         $str = new Str($string);
@@ -366,6 +440,10 @@ final class StrTest extends TestCase
             ['s,s,s', ''],
         ];
     }
+
+    /**
+     * @dataProvider explodeExceptionDataProvider
+     */
     public function testExplodeException(string $string, string $separator): void
     {
         $str = new Str($string);
@@ -379,6 +457,11 @@ final class StrTest extends TestCase
             [json_encode('some valid json'), true]
         ];
     }
+
+
+    /**
+     * @dataProvider isJsonDataProvider
+     */
     public function testIsJson(string $string, bool $expected): void
     {
         $str = new Str($string);
@@ -394,6 +477,10 @@ final class StrTest extends TestCase
             ['asd', 'string', false],
         ];
     }
+
+    /**
+     * @dataProvider compareToDataProvider
+     */
     public function testCompareTo(string $string, string $compareTo, bool $expected): void
     {
         $str = new Str($string);
@@ -409,6 +496,11 @@ final class StrTest extends TestCase
             ['asd', 'string', false],
         ];
     }
+
+
+    /**
+     * @dataProvider compareToIgnoreCaseDataProvider
+     */
     public function testCompareToIgnoreCase(string $string, string $compareTo, bool $expected): void
     {
         $str = new Str($string);
@@ -422,6 +514,10 @@ final class StrTest extends TestCase
             ["\n", true],
         ];
     }
+
+    /**
+     * @dataProvider isBlankDataProvider
+     */
     public function testIsBlank(string $string, bool $expected): void
     {
         $str = new Str($string);
